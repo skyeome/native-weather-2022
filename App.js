@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { ActivityIndicator, StyleSheet, View, Text, ScrollView, Dimensions } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import React, { useState, useEffect } from 'react';
 import * as Location from 'expo-location';
 import { Fontisto } from '@expo/vector-icons'; 
@@ -61,7 +62,7 @@ export default function App() {
             </View>
           )}
         </View>
-        <Text>D+7일 날씨</Text>
+        <Text style={styles.smtitle}>D+7일 날씨</Text>
         <ScrollView pagingEnabled horizontal contentContainerStyle={styles.days}>
           {days.length === 0 ? (
             <View style={styles.day}>
@@ -70,6 +71,7 @@ export default function App() {
             ) : (
               days.map((day,index) => 
             <View key={index} style={styles.day}>
+              <Text>{new Date(day.dt * 1000).toString().substring(0, 10)}</Text>
               <Text style={styles.day.description}>{day.weather[0].main}</Text>
               <Fontisto name={icons[day.weather[0].main]} size={45} color="white" />
               <Text style={styles.day.temp}>{parseFloat(day.temp.day).toFixed(1)}°</Text>
@@ -108,7 +110,8 @@ const styles = StyleSheet.create({
     },
     detail:{
       flexDirection:"row",
-      alignItems:"center"
+      alignItems:"center",
+      marginBottom:20
     },
     detailTxt:{
       flexDirection:"row",
@@ -116,9 +119,14 @@ const styles = StyleSheet.create({
       marginLeft:6,
       marginRight:6,
     },
-    main:{fontSize:32,color:"#666",marginBottom:20},
-    description:{fontSize:18,color:"#666"},
+    main:{fontSize:32,color:"rgba(0,0,0,.6)",marginBottom:20},
+    description:{fontSize:18,color:"rgba(0,0,0,.6)"},
     temp:{fontSize:100, fontWeight:"600"},
+  },
+  smtitle:{
+    paddingLeft:30,
+    fontSize:18,
+    fontWeight:"600"
   },
   days:{
     
@@ -128,14 +136,14 @@ const styles = StyleSheet.create({
     padding:10,
     backgroundColor:"rgba(255,255,255,.3)",
     alignItems:"center",
-    marginTop:50,
+    marginTop:20,
     marginLeft:10,
     marginRight:10,
     borderRadius:15,
     description:{
       fontSize:18,
       marginBottom:12,
-      color:"#666"
+      color:"rgba(0,0,0,.6)"
     },
     temp:{
       fontSize:32,
