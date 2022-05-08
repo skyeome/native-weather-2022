@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { ActivityIndicator, StyleSheet, View, Text, ScrollView, Dimensions } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import React, { useState, useEffect } from 'react';
 import * as Location from 'expo-location';
-import { Fontisto } from '@expo/vector-icons'; 
+import { Fontisto } from '@expo/vector-icons';
+import getEnvVars from './environment';
+const { apiUrl } = getEnvVars();
 
 const { width:SCREEN_WIDTH } = Dimensions.get("window");
-const API_KEY = "f15590dd9cef4c640807e57878f65405";
 const icons = {
   Clouds:"cloudy",
   Clear: "day-sunny",
@@ -30,7 +30,7 @@ export default function App() {
     const {coords:{latitude,longitude}} = await Location.getCurrentPositionAsync({accuracy:5});
     const location = await Location.reverseGeocodeAsync({latitude,longitude},{useGoogleMaps:false});
     setCity(location[0].region);
-    const resp = await (await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly,alerts&units=metric&appid=${API_KEY}`)).json();
+    const resp = await (await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly,alerts&units=metric&appid=${apiUrl}`)).json();
     setToday(resp.current);
     setDays(resp.daily);
   };
